@@ -1,0 +1,67 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate random data
+x = np.random.rand(100, 1)
+y = 1 + 2 * x + 0.1 * np.random.randn(100, 1)
+
+idx = np.arange(100)
+np.random.shuffle(idx)
+
+train_idx = idx[:80]
+val_idx = idx[80:]
+
+x_train, y_train = x[train_idx], y[train_idx]
+x_val, y_val = x[val_idx], y[val_idx]
+
+## plt.scatter(x_train, y_train)
+## plt.scatter(x_val, y_val)
+## plt.legend(['train', 'val'])
+## plt.show()
+
+## w = np.random.randn(1)
+## b = np.random.randn(1)
+## print('w0={:.4f} , b0={:.4f}'.format(w.item(), b.item()))
+
+## yp = b + w * x_train
+## print(yp)
+
+## error = (yp - y_train)
+## loss = (error ** 2).mean()
+## print('Loss={:.4f}'.format(loss))
+
+## b_grad = -2 * error.mean()
+## w_grad = -2 * (x_train * error).mean()
+## print('grad_w={:.4f} , grad_b={:.4f}'.format(w_grad, b_grad))
+
+np.random.seed(2)
+b = np.random.randn(1)
+w = np.random.randn(1)
+print('w0={:.4f} , b0={:.4f}'.format(w.item(), b.item()))
+
+learning_rate = 0.1
+epoch_len = 1000
+
+for epoch in range(epoch_len):
+    # Model
+    yp = b + w * x_train
+    # Loss Value
+    error = (y_train - yp)
+    loss = (error ** 2).mean()
+    # Calculate Gradiant Value
+    b_grad = -2 * error.mean()
+    w_grad = -2 * (x_train * error).mean()
+    # Update
+    b = b - learning_rate * b_grad
+    w = w - learning_rate * w_grad
+
+print('wf={:.4f} , bf={:.4f}'.format(w  .item(), b.item()))
+
+
+# Validation
+yp = b + w * x_val
+
+error = (yp - y_val)
+loss = (error ** 2).mean()
+
+print('Loss=', loss)
